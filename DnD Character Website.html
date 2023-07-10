@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>D&D Character Sheet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            vertical-align: top;
+            padding: 5px;
+        }
+
+        td {
+            padding: 5px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .top {
+            vertical-align: top;
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .export-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        .import-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>D&D Character Sheet</h1>
+
+    <table>
+        <tr>
+            <th colspan="2">
+                Character Name:
+                <input type="text" id="character-name">
+            </th>
+            <th colspan="2" class="center">AC: <input type="number" id="ac"></th>
+            <th colspan="2" class="center">Speed: <input type="number" id="speed"></th>
+        </tr>
+        <tr>
+            <th>Class:</th>
+            <td colspan="2"><input type="text" id="class"></td>
+            <th>Level:</th>
+            <td colspan="2"><input type="number" id="level"></td>
+        </tr>
+        <tr>
+            <th>Race:</th>
+            <td colspan="2"><input type="text" id="race"></td>
+            <th>Background:</th>
+            <td colspan="2"><input type="text" id="background"></td>
+        </tr>
+        <tr>
+            <th>Alignment:</th>
+            <td colspan="2"><input type="text" id="alignment"></td>
+            <th>Experience Points:</th>
+            <td colspan="2"><input type="number" id="xp"></td>
+        </tr>
+        <tr>
+            <th>Ability Scores:</th>
+            <td colspan="5">
+                <table>
+                    <tr>
+                        <th>Strength (STR)</th>
+                        <td><input type="number" id="strength"></td>
+                        <th>Dexterity (DEX)</th>
+                        <td><input type="number" id="dexterity"></td>
+                        <th>Constitution (CON)</th>
+                        <td><input type="number" id="constitution"></td>
+                    </tr>
+                    <tr>
+                        <th>Intelligence (INT)</th>
+                        <td><input type="number" id="intelligence"></td>
+                        <th>Wisdom (WIS)</th>
+                        <td><input type="number" id="wisdom"></td>
+                        <th>Charisma (CHA)</th>
+                        <td><input type="number" id="charisma"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th>Skills:</th>
+            <td colspan="5"><textarea id="skills"></textarea></td>
+        </tr>
+        <tr>
+            <th>Proficiency Bonus:</th>
+            <td colspan="2"><input type="number" id="proficiency-bonus"></td>
+            <th>Saving Throws:</th>
+            <td colspan="2"><textarea id="saving-throws"></textarea></td>
+        </tr>
+        <tr>
+            <th>Hit Points (HP):</th>
+            <td colspan="2"><input type="number" id="hp-current"> / <input type="number" id="hp-max"></td>
+            <th>Initiative:</th>
+            <td colspan="2"><input type="number" id="initiative"></td>
+        </tr>
+        <tr>
+            <th>Attacks and Weaponry:</th>
+            <td colspan="5"><textarea id="attacks-weaponry"></textarea></td>
+        </tr>
+        <tr>
+            <th>Equipment:</th>
+            <td colspan="5"><textarea id="equipment"></textarea></td>
+        </tr>
+        <tr>
+            <th>Spells:</th>
+            <td colspan="5"><textarea id="spells"></textarea></td>
+        </tr>
+        <tr>
+            <th>Features and Traits:</th>
+            <td colspan="5"><textarea id="features-traits"></textarea></td>
+        </tr>
+        <tr>
+            <th>Languages:</th>
+            <td colspan="5"><textarea id="languages"></textarea></td>
+        </tr>
+        <tr>
+            <th>Background Details:</th>
+            <td colspan="5"><textarea id="background-details"></textarea></td>
+        </tr>
+        <tr>
+            <th>Appearance:</th>
+            <td colspan="5"><textarea id="appearance"></textarea></td>
+        </tr>
+        <tr>
+            <th>Personality Traits:</th>
+            <td colspan="5"><textarea id="personality-traits"></textarea></td>
+        </tr>
+        <tr>
+            <th>Bonds, Flaws, and Ideals:</th>
+            <td colspan="5"><textarea id="bonds-flaws-ideals"></textarea></td>
+        </tr>
+        <tr>
+            <th>Backstory:</th>
+            <td colspan="5"><textarea id="backstory"></textarea></td>
+        </tr>
+        <tr>
+            <th>Currency:</th>
+            <td colspan="5"><textarea id="currency"></textarea></td>
+        </tr>
+        <tr>
+            <th>Allies and Organizations:</th>
+            <td colspan="5"><textarea id="allies-organizations"></textarea></td>
+        </tr>
+        <tr>
+            <th>Notes:</th>
+            <td colspan="5"><textarea id="notes"></textarea></td>
+        </tr>
+    </table>
+
+    <div class="button-container">
+        <button class="export-button" onclick="exportCharacter()">Export</button>
+        <button class="import-button" onclick="importCharacter()">Import</button>
+    </div>
+
+    <script>
+        function exportCharacter() {
+            var characterData = {
+                characterName: document.getElementById("character-name").value,
+                ac: document.getElementById("ac").value,
+                speed: document.getElementById("speed").value,
+                class: document.getElementById("class").value,
+                level: document.getElementById("level").value,
+                race: document.getElementById("race").value,
+                background: document.getElementById("background").value,
+                alignment: document.getElementById("alignment").value,
+                xp: document.getElementById("xp").value,
+                strength: document.getElementById("strength").value,
+                dexterity: document.getElementById("dexterity").value,
+                constitution: document.getElementById("constitution").value,
+                intelligence: document.getElementById("intelligence").value,
+                wisdom: document.getElementById("wisdom").value,
+                charisma: document.getElementById("charisma").value,
+                skills: document.getElementById("skills").value,
+                proficiencyBonus: document.getElementById("proficiency-bonus").value,
+                savingThrows: document.getElementById("saving-throws").value,
+                hpCurrent: document.getElementById("hp-current").value,
+                hpMax: document.getElementById("hp-max").value,
+                initiative: document.getElementById("initiative").value,
+                attacksWeaponry: document.getElementById("attacks-weaponry").value,
+                equipment: document.getElementById("equipment").value,
+                spells: document.getElementById("spells").value,
+                featuresTraits: document.getElementById("features-traits").value,
+                languages: document.getElementById("languages").value,
+                backgroundDetails: document.getElementById("background-details").value,
+                appearance: document.getElementById("appearance").value,
+                personalityTraits: document.getElementById("personality-traits").value,
+                bondsFlawsIdeals: document.getElementById("bonds-flaws-ideals").value,
+                backstory: document.getElementById("backstory").value,
+                currency: document.getElementById("currency").value,
+                alliesOrganizations: document.getElementById("allies-organizations").value,
+                notes: document.getElementById("notes").value
+            };
+
+            var filename = "character_data.txt";
+            var text = JSON.stringify(characterData);
+
+            var element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+
+        function importCharacter() {
+            var element = document.createElement('input');
+            element.setAttribute('type', 'file');
+            element.setAttribute('accept', '.txt');
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.addEventListener('change', function(e) {
+                var file = e.target.files[0];
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    var characterData = JSON.parse(event.target.result);
+                    document.getElementById("character-name").value = characterData.characterName;
+                    document.getElementById("ac").value = characterData.ac;
+                    document.getElementById("speed").value = characterData.speed;
+                    document.getElementById("class").value = characterData.class;
+                    document.getElementById("level").value = characterData.level;
+                    document.getElementById("race").value = characterData.race;
+                    document.getElementById("background").value = characterData.background;
+                    document.getElementById("alignment").value = characterData.alignment;
+                    document.getElementById("xp").value = characterData.xp;
+                    document.getElementById("strength").value = characterData.strength;
+                    document.getElementById("dexterity").value = characterData.dexterity;
+                    document.getElementById("constitution").value = characterData.constitution;
+                    document.getElementById("intelligence").value = characterData.intelligence;
+                    document.getElementById("wisdom").value = characterData.wisdom;
+                    document.getElementById("charisma").value = characterData.charisma;
+                    document.getElementById("skills").value = characterData.skills;
+                    document.getElementById("proficiency-bonus").value = characterData.proficiencyBonus;
+                    document.getElementById("saving-throws").value = characterData.savingThrows;
+                    document.getElementById("hp-current").value = characterData.hpCurrent;
+                    document.getElementById("hp-max").value = characterData.hpMax;
+                    document.getElementById("initiative").value = characterData.initiative;
+                    document.getElementById("attacks-weaponry").value = characterData.attacksWeaponry;
+                    document.getElementById("equipment").value = characterData.equipment;
+                    document.getElementById("spells").value = characterData.spells;
+                    document.getElementById("features-traits").value = characterData.featuresTraits;
+                    document.getElementById("languages").value = characterData.languages;
+                    document.getElementById("background-details").value = characterData.backgroundDetails;
+                    document.getElementById("appearance").value = characterData.appearance;
+                    document.getElementById("personality-traits").value = characterData.personalityTraits;
+                    document.getElementById("bonds-flaws-ideals").value = characterData.bondsFlawsIdeals;
+                    document.getElementById("backstory").value = characterData.backstory;
+                    document.getElementById("currency").value = characterData.currency;
+                    document.getElementById("allies-organizations").value = characterData.alliesOrganizations;
+                    document.getElementById("notes").value = characterData.notes;
+                };
+
+                reader.readAsText(file);
+            });
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
+    </script>
+</body>
+</html>
+
