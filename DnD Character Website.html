@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>D&D Character Sheet</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js"></script>
+</head>
+<body>
+  <h1>D&D Character Sheet</h1>
+
+  <div class="button-container">
+    <button class="export-button" onclick="exportCharacter()">Export Character</button>
+    <button class="import-button" onclick="importCharacter()">Import Character</button>
+    <!-- <button class="quickload-button" onclick="quickLoadCharacter()">Quick Load</button> -->
+    <!-- <button onclick="showAIContent('Generate some D&D facts.')">Generate Text</button> -->
+  </div>
+
+  <table>
+    <tr>
+      <th colspan="2">Character Name: <input type="text" id="character-name"></th>
+      <th colspan="2">Race: <input type="text" id="race"></th>
+      <th colspan="2">Class: <input type="text" id="class"></th>   
+    </tr>
+    <tr>
+      <th>Speed: </th>
+      <td colspan="2" class="center"><input type="number" id="speed"></td>
+      
+      <th>Level:</th>
+      <td colspan="2"><input type="number" id="level"></td>
+    </tr>
+    <tr>
+      <th>AC: </th>
+      <td colspan="2" class="center"><input type="number" id="ac"></td>
+      <th>Background:</th>
+      <td colspan="2"><input type="text" id="background"></td>
+    </tr>
+    <tr>
+      <th>Alignment:</th>
+      <td colspan="2"><input type="text" id="alignment"></td>
+      <th>Experience Points:</th>
+      <td colspan="2"><input type="number" id="xp"></td>
+    </tr>
+    <tr>
+      <th>Ability Scores:</th>
+      <td colspan="5">
+        <table>
+          <tr>
+            <th>Strength (STR)</th>
+            <td><input type="number" id="strength" onchange="updateAbilityModifiers()"></td>
+            <td id="strength-modifier"></td>
+            <!-- Display strength modifier here -->
+            <th>Dexterity (DEX)</th>
+            <td><input type="number" id="dexterity" onchange="updateAbilityModifiers()"></td>
+            <td id="dexterity-modifier"></td>
+            <!-- Display dexterity modifier here -->
+            <th>Constitution (CON)</th>
+            <td><input type="number" id="constitution" onchange="updateAbilityModifiers()"></td>
+            <td id="constitution-modifier"></td>
+            <!-- Display constitution modifier here -->
+          </tr>
+          <tr>
+            <th>Intelligence (INT)</th>
+            <td><input type="number" id="intelligence" onchange="updateAbilityModifiers()"></td>
+            <td id="intelligence-modifier"></td>
+            <!-- Display intelligence modifier here -->
+            <th>Wisdom (WIS)</th>
+            <td><input type="number" id="wisdom" onchange="updateAbilityModifiers()"></td>
+            <td id="wisdom-modifier"></td>
+            <!-- Display wisdom modifier here -->
+            <th>Charisma (CHA)</th>
+            <td><input type="number" id="charisma" onchange="updateAbilityModifiers()"></td>
+            <td id="charisma-modifier"></td>
+            <!-- Display charisma modifier here -->
+          </tr>
+        </table>
+        <div class="button-container">
+          <button id="dice-roll-button" onclick="rollDice()">Roll D20</button>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th>Skills:</th>
+      <td colspan="5"><textarea id="skills"></textarea></td>
+    </tr>
+    <tr>
+      <th>Proficiency Bonus:</th>
+      <td colspan="2"><input type="number" id="proficiency-bonus"></td>
+      <th>Saving Throws:</th>
+      <td colspan="2"><textarea id="saving-throws"></textarea></td>
+    </tr>
+    <tr>
+      <th>Hit Points (HP):</th>
+      <td colspan="2"><input type="number" id="hp-current"> / <input type="number" id="hp-max"></td>
+      <th>Initiative:</th>
+      <td colspan="2"><input type="number" id="initiative"></td>
+    </tr>
+
+    <tr>
+      <td colspan="6"></td>
+    </tr>
+    <tr>
+      <td colspan="6" class="center">
+        <h2 id="ai-header">AI Generated Content</h2>
+
+        
+        <div>
+          <textarea id="ai-generated-content-input" placeholder="Need to ask a question about a feat, weapon, item, or class feature? Type your question in here and get a quick response! Keep in mind that not all responses are accurate and should not be relied on for accurate information."></textarea>
+          
+          <div class="button-container" style="text-align: center;">
+            <button id="ai-button" class="button-container" onclick="showAIContent(document.getElementById('ai-generated-content-input').value)">Generate</button>
+          </div>
+
+          <textarea rows="5" cols="50" readonly id="ai-generated-content-output"></textarea>
+        </div>
+
+        
+      </td>
+    </tr>
+    
+    <table id="weaponry-table">
+      <tr>
+        <th colspan="9">Attacks and Weaponry:</th>
+      </tr>
+      <tr>
+        <td colspan="6">
+          <button onclick="addEntry()">Add Entry</button>
+        </td>
+      </tr>
+      <tr>
+        <th>Weapon (Melee/Ranged/Other)</th>
+        <th>Cost</th>
+        <th>Weight</th>
+        <th>Properties</th>
+        <th>Damage</th>
+        <th>Description</th>
+        <th>Special</th>
+        <th>Note</th>
+        <th></th>
+      </tr>
+    </table>
+
+    <tr>
+      <th>Proficiencies:</th>
+      <td colspan="6"><textarea id="proficiencies"></textarea></td>
+    </tr>
+    <tr>
+    <tr>
+      <th>Equipment:</th>
+      <td colspan="5"><textarea id="equipment"></textarea></td>
+    </tr>
+    <tr>
+      <th>Spells:</th>
+      <td colspan="5"><textarea id="spells"></textarea></td>
+    </tr>
+    <tr>
+      <th>Features and Traits:</th>
+      <td colspan="5"><textarea id="features-traits"></textarea></td>
+    </tr>
+    <tr>
+      <th>Languages:</th>
+      <td colspan="5"><textarea id="languages"></textarea></td>
+    </tr>
+    <tr>
+      <th>Background Details:</th>
+      <td colspan="5"><textarea id="background-details"></textarea></td>
+    </tr>
+    <tr>
+      <th>Appearance:</th>
+      <td colspan="5"><textarea id="appearance"></textarea></td>
+    </tr>
+    <tr>
+      <th>Personality Traits:</th>
+      <td colspan="5"><textarea id="personality-traits"></textarea></td>
+    </tr>
+    <tr>
+      <th>Bonds, Flaws, and Ideals:</th>
+      <td colspan="5"><textarea id="bonds-flaws-ideals"></textarea></td>
+    </tr>
+    <tr>
+      <th>Backstory:</th>
+      <td colspan="5"><textarea id="backstory"></textarea></td>
+    </tr>
+    <tr>
+      <th>Currency:</th>
+      <td colspan="5"><textarea id="currency"></textarea></td>
+    </tr>
+    <tr>
+      <th>Allies and Organizations:</th>
+      <td colspan="5"><textarea id="allies-organizations"></textarea></td>
+    </tr>
+    <tr>
+      <th>Notes:</th>
+      <td colspan="5"><textarea id="notes"></textarea></td>
+    </tr>
+  </table>
+
+
+
+
+
+  <textarea rows="5" cols="50" readonly></textarea>
+
+
+
+
+</body>
+</html>
